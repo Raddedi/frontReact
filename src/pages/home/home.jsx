@@ -1,4 +1,5 @@
 import React from 'react';
+
 import img1 from '../../images/ala.png';
 import img2 from '../../images/ph8.jpg';
 import img3 from '../../images/ph4.png';
@@ -12,8 +13,11 @@ import omg10 from '../../images/assurance4.png';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import alanBtn from '@alan-ai/alan-sdk-web';
+import { useNavigate } from 'react-router-dom';
 
 const MainBanner = () => {
+  const navigate = useNavigate();
   const [phones, setPhones] = useState([]);
   const [selectedPhone, setSelectedPhone] = useState(null);
   const [selectedAchat, setSelectedAchat] = useState(null);
@@ -105,8 +109,32 @@ const MainBanner = () => {
       setSelectedPhone(null);
     };
   };
+  useEffect(() => {
+    alanBtn({
+      key: '63c3447bd5d9c118e40618d98addd17d2e956eca572e1d8b807a3e2338fdd0dc/stage',
+      onCommand: ({ command }) => {
+        if (command === 'testCommand') {
+        } else if (command === 'signin') {
+          navigate('/auth/signin');
+        } else if (command === 'signup') {
+          navigate('/auth/signup');
+        } else if (command === 'publication') {
+          navigate('/listePublication');
+        } else if (command === 'store') {
+          navigate('/listeBoutique');
+        } else if (command === 'reclamations') {
+          navigate('/ListeReclamations');
+        } else if (command === 'profile') {
+          navigate('/profile');
+        } else if (command === 'users') {
+          console.log('nice');
+          navigate('/ListeUsers');
+        }
+      },
+    });
+  }, []);
   return (
-    <body>
+    <body className="overflow-x-hidden">
       <div className="main-banner" id="top">
         <div className="container-fluid">
           <div className="row">
@@ -117,6 +145,7 @@ const MainBanner = () => {
                 </div>
               </div>
             </div>
+
             <div className="col-lg-6">
               <div className="right-content">
                 <div className="row">
@@ -345,9 +374,9 @@ const MainBanner = () => {
                     className="bg-white shadow-md rounded-lg p-4"
                   >
                     <img
-                      src={phone.imageUrl}
+                      src={phone.image}
                       alt={phone.nomProduit}
-                      className="w-full h-48 object-cover rounded-t-lg"
+                      className="w-full h-80 object-cover rounded-t-lg"
                     />
                     <div className="p-4">
                       <h2 className="text-lg font-semibold">
@@ -524,7 +553,7 @@ const Modal = ({ phone, onClose, onConfirm }) => {
 
 //---------------------model2---------------------------
 
-const Modal2 = ({ achat, onClose, onConfirm ,setIsModalNdOpen }) => {
+const Modal2 = ({ achat, onClose, onConfirm, setIsModalNdOpen }) => {
   const [type, setType] = useState('');
   const [description, setDescription] = useState('');
 
@@ -540,17 +569,20 @@ const Modal2 = ({ achat, onClose, onConfirm ,setIsModalNdOpen }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-       // Remplacez par l'ID d'achat approprié
-      const response = await axios.post('http://localhost:3000/api/reclamations', {
-        achat : achat._id,
-        type,
-        description,
-      });
+      // Remplacez par l'ID d'achat approprié
+      const response = await axios.post(
+        'http://localhost:3000/api/reclamations',
+        {
+          achat: achat._id,
+          type,
+          description,
+        },
+      );
       console.log('Réclamation créée:', response.data);
-      setType("")
-      setDescription("")
+      setType('');
+      setDescription('');
       onConfirm();
-      setIsModalNdOpen(false)
+      setIsModalNdOpen(false);
     } catch (error) {
       console.error('Erreur lors de la création de la réclamation:', error);
     }
