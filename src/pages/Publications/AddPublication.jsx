@@ -1,21 +1,20 @@
 import { useState } from 'react';
 import DefaultLayout from '../../layout/DefaultLayout';
 import axios from 'axios';
-import { useNavigate ,useLocation} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const AddPublication = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const location = useLocation();
 
-    const location = useLocation();
-
-    console.log('id',location.state._id)
+  console.log('id', location.state._id);
   const [formPublication, setFormPublication] = useState({
     nomProduit: '',
     description: '',
     prix: 0,
     type: '',
-    boutiqueId: location.state._id
-    
+    boutiqueId: location.state._id,
+    image: '',
   });
 
   // Handle input changes
@@ -27,12 +26,37 @@ const AddPublication = () => {
     }));
   };
 
+  // Handle image upload
+  const handleImageUpload = (e) => {
+    const imageFile = e.target.files[0];
+    setFormPublication((prevState) => ({
+      ...prevState,
+      image: imageFile,
+    }));
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formPublication);
-    await axios.post('http://localhost:3000/api/publication', formPublication);
-    navigate('/listePublication',{state: location.state._id});
+
+    const formData = new FormData();
+    formData.append('nomProduit', formPublication.nomProduit);
+    formData.append('description', formPublication.description);
+    formData.append('prix', formPublication.prix);
+    formData.append('type', formPublication.type);
+    formData.append('boutiqueId', formPublication.boutiqueId);
+    formData.append('image', formPublication.image); // Append the image
+
+    try {
+      await axios.post('http://localhost:3000/api/publication', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      navigate('/listePublication', { state: location.state._id });
+    } catch (error) {
+      console.error('Error adding publication:', error);
+    }
   };
 
   return (
@@ -102,7 +126,6 @@ const AddPublication = () => {
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
-
                 <div className="mb-4.5">
                   <label
                     htmlFor="type"
@@ -123,14 +146,24 @@ const AddPublication = () => {
                     <option value="Phone">Phone</option>
                     <option value="Ordinateur">Ordinateur</option>
                     <option value="Electromenager">Electromenager</option>
-
                   </select>
                 </div>
-
-               
-
-  
-               
+                <div className="mb-4">
+                  <label
+                    htmlFor="prix"
+                    className="mb-2.5 block text-black dark:text-white"
+                  >
+                    Image
+                  </label>
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="mb-4.5"
+                  />
+                </div>
 
                 <button
                   type="submit"

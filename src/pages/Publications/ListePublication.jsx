@@ -33,6 +33,7 @@ console.log("boutique", location)
         const response = await axios.get(
           `http://localhost:3000/api/publication/boutique/${location.state}`,
         );
+        console.log("_______________",response.data)
         setPublications(response.data);
       }
     };
@@ -94,7 +95,7 @@ console.log("boutique", location)
             >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="h-12.5 w-15 rounded-md">
-                  <img src={BrandOne} alt="Brand" />
+                  <img src={publication.image} alt="Brand" />
                 </div>
                 <p className="hidden text-black dark:text-white sm:block">
                   {publication.nomProduit}
