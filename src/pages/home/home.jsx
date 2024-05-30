@@ -228,7 +228,7 @@ const MainBanner = () => {
               <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
               <div class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
                 <h1 class="font-dmserif text-3xl font-bold text-white">
-                  Beauty
+                Smart Phones
                 </h1>
                 <p class="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -250,7 +250,7 @@ const MainBanner = () => {
               <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
               <div class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
                 <h1 class="font-dmserif text-3xl font-bold text-white">
-                  Beyond Builder
+                Ordinateur
                 </h1>
                 <p class="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -272,7 +272,7 @@ const MainBanner = () => {
               <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black group-hover:from-black/70 group-hover:via-black/60 group-hover:to-black/70"></div>
               <div class="absolute inset-0 flex translate-y-[60%] flex-col items-center justify-center px-9 text-center transition-all duration-500 group-hover:translate-y-0">
                 <h1 class="font-dmserif text-3xl font-bold text-white">
-                  Shooting Star
+                Electroménager
                 </h1>
                 <p class="mb-3 text-lg italic text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -366,7 +366,7 @@ const MainBanner = () => {
         <div className="container">
           <div className="row">
             <div className="container mx-auto p-4">
-              <h1 className="text-2xl font-bold mb-4">Liste des Téléphones</h1>
+              <h1 className="text-2xl font-bold mb-4">Liste des Produits</h1>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {phones.map((phone) => (
                   <div
@@ -516,6 +516,11 @@ const Modal = ({ phone, onClose, onConfirm }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-40 rounded-lg">
         <h2 className="text-xl font-bold mb-4">{phone.nomProduit}</h2>
+        <img
+                      src={phone.image}
+                      alt={phone.nomProduit}
+                      className="w-1/2 h-80 object-cover rounded-t-lg content-center"
+                    />
         <p>
           <strong>Description:</strong> {phone.description}
         </p>
